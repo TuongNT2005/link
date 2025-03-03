@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+
+using namespace std;
+
+
+int main()
+{
+	int t; cin >> t;
+	cin.ignore();
+	while (t--)
+	{
+		string s;
+		getline(cin, s);
+		stringstream ss(s);
+		vector<string> v;
+		string tmp;
+		while (ss >> tmp)
+		{
+			v.push_back(tmp);
+		}
+		string ans = "";
+		for (int i = 0; i < v.size(); i++)
+		{
+			v[i][0] = toupper(v[i][0]);
+			for (int j = 1; j < v[i].size(); j++) v[i][j] = tolower(v[i][j]);
+			ans += v[i] +" ";
+		}
+		cout << ans << endl;
+ 	}
+	return 0;
+}
