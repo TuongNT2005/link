@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void solve(int n)
+void getMulFactory(int n)
 {
 	map<int, int> m;
 	for (int i = 2; i <= sqrt(n); i++)
@@ -39,7 +39,7 @@ int main()
 	{
 		int n; cin >> n;
 		cout << "Test " << t << ": ";
-		solve(n);
+		getMulFactory(n);
 		cout << endl;
 
 	}
