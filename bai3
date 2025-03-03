@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+
+using namespace std;
+
+void solve(int n)
+{
+	map<int, int> m;
+	for (int i = 2; i <= sqrt(n); i++)
+	{
+		while (n % i == 0)
+		{
+			m[i]++;
+			n /= i;
+		}
+	}
+	if (n > 1) m[n]++;
+	for (auto it : m)
+	{
+		cout << it.first << '(' << it.second << ')' << " ";
+	}
+}
+
+
+int main()
+{
+	int t; cin >> t;
+	for(int i=1;i<=t;i++)
+	{
+		int n; cin >> n;
+		cout << "Test " << t << ": ";
+		solve(n);
+		cout << endl;
+
+	}
+
+
+
+
+	return 0;
+}
