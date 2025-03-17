@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+#include<algorithm>
+#include<unordered_map>
+#include<unordered_set>
+#include<set>
+#include<map>
+#include<math.h>
+#include<queue>
+#include<string>
+
+using namespace std;
+int ans[100];
+int n;
+bool ok = false;
+
+void khoi_tao()
+{
+	for (int i = 1; i <= n; i++) ans[i] = 0;
+}
+
+void sinh()
+{
+	int i = n;
+	for (i; i > 0; i--)
+	{
+		if (ans[i] == 1) ans[i] = 0;
+		else
+		{
+			ans[i] = 1;
+			break;
+		}
+	}
+	if (i == 0) ok = true;
+}
+
+bool check()
+{
+	int l = 1;
+	int r = n;
+	while (l <= r)
+	{
+		if (ans[l] != ans[r])
+		{
+			return false;
+		}
+		l++;
+		r--;
+	}
+	return true;
+}
+
+void lap()
+{
+	khoi_tao();
+	while (ok==false)
+	{
+		if (check())
+		{
+			for (int i = 1; i <= n; i++) cout << ans[i] << " ";
+			cout << endl;
+		}
+		
+		
+		sinh();
+	}
+}
+
+int main()
+{
+	cin >> n;
+	lap();
+
+
+	return 0;
+}
