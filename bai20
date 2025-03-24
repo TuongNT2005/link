@@ -1,0 +1,72 @@
+#include<iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+
+using namespace std;
+
+vector<int> sinh(vector<int> v, int n, int k)
+{
+    int i = k;
+    for (i; i > 0; i--)
+    {
+        if (v[i] != n - k + i)
+        {
+            break;
+        }
+    }
+    if (i == 0) return {};
+    v[i]++;
+    for (int j = i + 1; j <= k; j++)
+    {
+        v[j] = v[j - 1] + 1;
+    }
+    return v;
+}
+
+
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        int n, k; cin >> n >> k;
+        vector<int> v(n + 1);
+        for (int i = 1; i <= k; i++)
+        {
+            cin >> v[i];
+        }
+        vector<int> tmp = sinh(v, n, k);
+        if (tmp.empty()) cout << k;
+        else
+        {
+            int cnt = 0;
+            for (int i = 1; i <= k; i++)
+            {
+                bool check = true;
+                for (int j = 0; j <= k; j++)
+                {
+                    if (tmp[i] == v[j])
+                    {
+                        check = false;
+                        break;
+                    }
+                }
+                if (check) cnt++;
+            }
+            cout << cnt;
+        }
+        cout << endl;
+    }
+
+
+    return 0;
+}
