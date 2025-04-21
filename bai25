@@ -1,0 +1,57 @@
+﻿#include<iostream>
+#include<vector>
+#include<map>
+#include<math.h>
+#include<set>
+#include<algorithm>
+
+using namespace std;
+
+int ans = 1000000007;
+
+void solve(int cur, vector<vector<int>>& v, vector<bool>& visited, int sum, int t,int n,int m)
+{
+	//cout << sum << endl;
+
+	if (t == n)
+	{
+		ans = min(ans, sum+v[cur][1]);
+		return;
+	}
+
+	if (sum + (n - t + 1) * m >= ans) return;
+
+	for (int i = 1; i <= n; i++)
+	{
+		if (visited[i] == false)
+		{
+			visited[i] = true;
+			solve(i, v, visited, sum + v[cur][i], t+1, n, m);
+			visited[i] = false;
+		}
+	}
+
+}
+
+
+int main()
+{
+	int n; cin >> n;
+	int m = 1000000007;
+	vector<vector<int>> v(n + 1, vector<int>(n + 1));
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			cin >> v[i][j];
+			m = min(v[i][j], m);
+		}
+	}
+
+	vector<bool> visited(n + 1, false);
+	visited[1] = true;
+	solve(1, v, visited, 0, 1, n, m);
+	cout << ans;
+
+	return 0;
+}
