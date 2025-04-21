@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<deque>
+#include<set>
+#include<stack>
+#include<fstream>
+#include<algorithm>
+#include<iomanip>
+#include<math.h>
+#include<string>
+
+using namespace std;
+
+long long giai_thua(long long n)
+{
+	if (n == 1) return 1ll;
+	return n * giai_thua(n - 1ll);
+}
+
+int main()
+{
+	while(true)
+	{
+		long long n; cin >> n;
+		cout << giai_thua(n) << endl;
+
+	}
+	
+	return 0;
+}
