@@ -1,0 +1,53 @@
+﻿#include<iostream>
+#include<vector>
+#include<map>
+#include<math.h>
+#include<algorithm>
+#include<set>
+
+using namespace std;
+map<int, int> a;//i
+map<int, int> b;//j
+map<int, int> c;//i+j
+map<int, int> d;//i-j
+map<vector<int>, int> e;
+int ans = 0;
+
+void solve(int row, int n)
+{
+	if (row == n)
+	{
+		ans++;
+		return;
+	}
+	for (int j = 0; j < n; j++)
+	{
+		if (b[j] == 0 && c[row - j] == 0 && d[row + j] == 0)
+		{
+			b[j]++;
+			c[row - j]++;
+			d[row + j]++;
+			solve(row + 1, n);
+			b[j]--;
+			c[row - j]--;
+			d[row + j]--;
+		}
+	}
+}
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		int n; cin >> n;
+		ans = 0;
+		b.clear();
+		c.clear();
+		d.clear();
+		solve(0, n);
+		cout << ans << endl;
+	}
+
+	return 0;
+}
