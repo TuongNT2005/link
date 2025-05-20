@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Thêm vào đầu danh sách
+void pushFront(Node*& head, int x) {
+    Node* newNode = new Node{ x, head };
+    head = newNode;
+}
+
+// Thêm vào cuối danh sách
+void pushBack(Node*& head, int x) {
+    Node* newNode = new Node{ x, nullptr };
+    if (!head) head = newNode;
+    else {
+        Node* tmp = head;
+        while (tmp->next) tmp = tmp->next;
+        tmp->next = newNode;
+    }
+}
+
+// Xóa phần tử đầu
+void popFront(Node*& head) {
+    if (!head) return;
+    Node* tmp = head;
+    head = head->next;
+    delete tmp;
+}
+
+// In danh sách
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << "\n";
+}
