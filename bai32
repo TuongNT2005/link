@@ -1,0 +1,26 @@
+#include <iostream>
+#define MAX 100
+using namespace std;
+
+struct Queue {
+    int arr[MAX];
+    int front = 0, rear = -1;
+
+    void enqueue(int x) {
+        if (rear == MAX - 1) return;
+        arr[++rear] = x;
+    }
+
+    void dequeue() {
+        if (front > rear) return;
+        front++;
+    }
+
+    int peek() {
+        return (front <= rear) ? arr[front] : -1;
+    }
+
+    bool isEmpty() {
+        return front > rear;
+    }
+};
