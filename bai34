@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+struct TreeNode {
+    int data;
+    TreeNode* left = nullptr;
+    TreeNode* right = nullptr;
+};
+
+// Thêm phần tử vào BST
+TreeNode* insert(TreeNode* root, int x) {
+    if (!root) return new TreeNode{x};
+    if (x < root->data) root->left = insert(root->left, x);
+    else if (x > root->data) root->right = insert(root->right, x);
+    return root;
+}
+
+// Duyệt cây theo thứ tự trung (Inorder)
+void inorder(TreeNode* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+// Tìm kiếm phần tử
+bool search(TreeNode* root, int x) {
+    if (!root) return false;
+    if (x == root->data) return true;
+    if (x < root->data) return search(root->left, x);
+    return search(root->right, x);
+}
+
+// Tìm node nhỏ nhất
+TreeNode* findMin(TreeNode* root) {
+    while (root && root->left) root = root->left;
+    return root;
+}
+
+// Xóa phần tử
+TreeNode* deleteNode(TreeNode* root, int x) {
+    if (!root) return nullptr;
+    if (x < root->data) root->left = deleteNode(root->left, x);
+    else if (x > root->data) root->right = deleteNode(root->right, x);
+    else {
+        if (!root->left) {
+            TreeNode* tmp = root->right;
+            delete root;
+            return tmp;
+        } else if (!root->right) {
+            TreeNode* tmp = root->left;
+            delete root;
+            return tmp;
+        } else {
+            TreeNode* tmp = findMin(root->right);
+            root->data = tmp->data;
+            root->right = deleteNode(root->right, tmp->data);
+        }
+    }
+    return root;
+}
