@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+struct TreeNode {
+    int data;
+    TreeNode* left = nullptr;
+    TreeNode* right = nullptr;
+};
+
+// Thêm node vào BST
+TreeNode* insert(TreeNode* root, int x) {
+    if (!root) return new TreeNode{x};
+    if (x < root->data) root->left = insert(root->left, x);
+    else root->right = insert(root->right, x);
+    return root;
+}
+
+// In thứ tự trung (In-order)
+void inorder(TreeNode* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+// Tìm node
+bool search(TreeNode* root, int x) {
+    if (!root) return false;
+    if (root->data == x) return true;
+    if (x < root->data) return search(root->left, x);
+    return search(root->right, x);
+}
