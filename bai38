@@ -1,0 +1,89 @@
+#include<iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+
+using namespace std;
+
+void dfs(int u, vector<vector<int>>& list, vector<bool>& visited)
+{
+	visited[u] = true;
+	for (auto des : list[u])
+	{
+		if (visited[des] == false)
+		{
+			dfs(des, list, visited);
+		}
+	}
+}
+
+int countComponents(int n,vector<vector<int>>& list,vector<bool> visited)
+{
+	int ans = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		if (visited[i] == false)
+		{
+			ans++;
+			dfs(i, list, visited);
+		}
+	}
+	return ans;
+}
+
+
+int main()
+{
+	/*int n; cin >> n;
+	vector<vector<int>> list(n + 1);
+	for (int i = 0; i < n; i++)
+	{
+		int k; cin >> k;
+		for (int j = 0; j < k; j++)
+		{
+			int tmp; cin >> tmp;
+			list[i + 1].push_back(tmp);
+		}
+	}*/
+
+
+	int t; cin >> t;
+	while (t--)
+	{
+		int n, m; cin >> n >> m;
+		vector<vector<int>> list(n + 1);
+		for (int i = 0; i < m; i++)
+		{
+			int a, b; cin >> a >> b;
+			list[a].push_back(b);
+			list[b].push_back(a);
+		}
+
+		vector<bool> visited(n + 1, false);
+		int components = countComponents(n, list, visited);
+		vector<int> ans;
+
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 1; j <= n; j++) visited[j] = false;
+			visited[i] = true;
+			if (components < countComponents(n, list, visited))
+				ans.push_back(i);
+		}
+
+		for (auto it : ans) cout << it << " ";
+		cout << endl;
+	}
+
+	
+
+	return 0;
+}
