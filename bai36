@@ -1,0 +1,46 @@
+﻿#include<iostream>
+#include<map>
+#include<vector>
+#include<deque>
+#include<stack>
+
+using namespace std;
+
+void dfs(vector<vector<int>>& ke, vector<bool>& visited ,int u)
+{
+	visited[u] = true;
+	cout << u << " ";
+	for (auto v : ke[u])
+	{
+		if (visited[v] == false)
+		{
+			dfs(ke, visited, v);
+		}
+	}
+}
+	
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		int n, m, k; cin >> n >> m >> k;
+		vector<vector<int>> ke(n + 1);
+		for (int i = 0; i < m; i++)
+		{
+			int a, b; cin >> a >> b;
+			ke[a].push_back(b);
+			ke[b].push_back(a);
+		}
+
+
+		vector<bool> visited(n + 1, false);
+		
+		dfs(ke, visited, k);
+
+		cout << endl;
+	}
+
+	return 0;
+}
