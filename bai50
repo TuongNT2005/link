@@ -1,0 +1,47 @@
+﻿#include<iostream>
+#include<map>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+	int n, m; cin >> n >> m;
+	vector<vector<int>> cost(n + 1, vector<int>(n + 1, 1000000007));
+	vector<vector<int>> minPart(n + 1, vector<int>(n + 1, 1000000007));
+
+	for (int i = 1; i <= n; i++)
+		minPart[i][i] = 0;
+
+
+	for (int i = 1; i <= m; i++)
+	{
+			int a, b, c; cin >> a >> b >> c;
+			minPart[a][b] = c;
+			minPart[b][a] = c;
+	}
+
+	for (int k = 1; k <= n; k++)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 1; j <= n; j++)
+			{
+				if (minPart[i][j] > minPart[i][k] + minPart[k][j])
+				{
+					minPart[i][j] = minPart[i][k] + minPart[k][j];
+				}
+			}
+		}
+	}
+
+
+	int q; cin >> q;
+	while (q--)
+	{
+		int a, b; cin >> a >> b;
+		cout << minPart[a][b] << endl;
+	}
+
+	return 0;
+}
