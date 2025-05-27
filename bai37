@@ -1,0 +1,185 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<fstream>
+#include<queue>
+
+
+using namespace std;
+
+vector<int> visited;
+
+
+void inputMatrix()
+{
+	ifstream dataIn;
+	dataIn.open("D:\\code\\vs code\\trr2\\trr2\\DT.INP.txt");
+	int n; dataIn >> n;
+	vector<vector<int>> graph(n, vector<int>(n, 0));
+	for (int row = 0; row < n; row++)
+	{
+		for (int col = 0; col < n; col++)
+		{
+			dataIn >> graph[row][col];
+		}
+	}
+	dataIn.close();
+
+
+	//
+}
+
+
+void getNodeLevel(vector<vector<int>> graph)
+{
+	//only working with matrix as the input
+	ofstream out;
+	out.open("D:\\code\\vs code\\trr2\\trr2\\DT.OUT.txt");
+	int n = graph.size();
+	for (int row = 0; row < n; row++)
+	{
+		int curNodeLevel = 0;
+		for (int col = 0; col < n; col++)
+		{
+			if (graph[row][col] == 1) curNodeLevel++;
+		}
+		out << curNodeLevel << " ";
+	}
+	out.close();
+	return;
+}
+
+void getEdges(vector<vector<int>> graph)
+{
+	ofstream out;
+	out.open("D:\\code\\vs code\\trr2\\trr2\\DT.OUT.txt");
+	int n = graph.size();
+
+	vector<vector<int>> edges;
+
+	for (int row = 0; row < n; row++)
+	{
+		for (int col = row; col < n; col++)
+		{
+			if (graph[row][col] == 1)
+			{
+				edges.push_back({ row + 1,col + 1 });
+			}
+		}
+	}
+
+	out << n << " " << edges.size() << endl;
+	for (auto edge : edges)
+		out << edge[0] << " " << edge[1] << endl;
+
+	out.close();
+	return;
+}
+
+void  inputList()
+{
+	ifstream dataIn;
+	dataIn.open("D:\\code\\vs code\\trr2\\trr2\\DT.INP.txt");
+	int n; dataIn >> n;
+	int k; dataIn >> k;
+
+	map<int, vector<int>> edges;
+
+	for (int i = 0; i < k; i++)
+	{
+		int a, b; cin >> a >> b;
+		edges[a].push_back(b);
+	}
+	dataIn.close();
+
+
+	//
+}
+
+void getNodeHalfLevel(map<int, vector<int>> edges, int n)
+{
+	//only working with list edges 
+	ofstream out;
+	out.open("D:\\code\\vs code\\trr2\\trr2\\DT.OUT.txt");
+	vector<vector<int>> ans(n + 1, vector<int>(2, 0));
+	for (auto node : edges)
+	{
+		//ban bac duong
+		ans[node.first][0] = node.second.size();
+		//ban bac am
+		for (auto it : node.second)
+		{
+			ans[it][1]++;
+		}
+	}
+
+	// in ra cac ban bac + cua n dinh
+	for (int i = 1; i <= n; i++)
+	{
+		out << ans[i][0] << " ";
+	}
+	out.close();
+	return;
+}
+
+bool isDone = false;
+
+void dfs(map<int, vector<int>>& edges, int cur, vector<int>& ans)
+{
+	ans.push_back(cur);
+	visited[cur] = 1;
+
+	for (auto des : edges[cur])
+	{
+		if (visited[des] == 0)
+		{
+			dfs(edges, des, ans);
+		}
+	}
+}
+
+void bfs(map<int, vector<int>>& edges, int cur, vector<int>& ans)
+{
+	visited[cur] = 1;
+	deque<int> q;
+	q.push_back(cur);
+	while (q.empty() == false)
+	{
+		ans.push_back(q.front());
+		for (auto des : edges[q.front()])
+		{
+			if (visited[des] == 0)
+			{
+				visited[des] = 1;
+				q.push_back(des);
+			}
+		}
+		q.pop_front();
+	}
+}
+
+
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		visited.clear();
+		int n, m, k; cin >> n >> m >> k;
+		map<int, vector<int>> v;
+		for (int i = 1; i <= m; i++)
+		{
+			int a, b; cin >> a >> b;
+			v[a].push_back(b);
+			v[b].push_back(a);
+		}
+		visited.resize(n + 1, 0);
+		vector<int> ans;
+		bfs(v, k,ans);
+		for (auto it : ans) cout << it << " ";
+ 		cout << endl;
+	}
+	return 0;
+
+}
