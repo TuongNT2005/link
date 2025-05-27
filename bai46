@@ -1,0 +1,86 @@
+﻿#include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+
+using namespace std;
+
+void bfs(int u,vector<bool>& visited, vector<vector<int>>& v)
+{
+	deque<int> q;
+	q.push_back(u);
+	visited[u] = true;
+	while (q.empty() == false)
+	{
+		for (auto it : v[q.front()])
+		{
+			if (visited[it] == false)
+			{
+				visited[it] = true;
+				q.push_back(it);
+			}
+		}
+		q.pop_front();
+	}
+}
+
+
+int tplt(vector<bool>& visited, vector<vector<int>>& v,int n)
+{
+	int bd = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		if (visited[i] == false)
+		{
+			bfs(i, visited, v);
+			bd++;
+		}
+	}
+
+	return bd;
+}
+
+int  main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		int n, m; cin >> n >> m;
+		vector<bool> visited(n + 10, false);
+		vector<vector<int>> k(n + 10);
+
+		vector<int> sign(n + 1,0);
+
+		for (int i = 0; i < m; i++)
+		{
+			int a, b; cin >> a >> b;
+			sign[a]++;
+			sign[b]++;
+		}
+
+		int cnt1 = 0;
+		int cnt2 = 0;
+		for (int i = 1; i <= n; i++)
+		{
+			if (sign[i] % 2 == 0) cnt2++;
+			else cnt1++;
+		}
+		
+		if (cnt1 == 2) cout << 1 << endl;
+		else if (cnt1 > 0) cout << 0 << endl;
+		else cout << 2 << endl;
+
+	}
+
+
+
+	return 0;
+}
