@@ -1,0 +1,80 @@
+﻿#include<iostream>
+#include<vector>
+#include<map>
+#include<deque>
+#include<set>
+#include<stack>
+#include<fstream>
+#include<algorithm>
+#include<iomanip>
+#include<math.h>
+#include<string>
+
+using namespace std;
+
+vector<vector<int>> ans;
+
+void dfs(int n, int u, vector<bool>& visited, vector<vector<int>>& ke, vector<int>& tmp)
+{
+	visited[u] = true;
+	tmp.push_back(u);
+
+	if (tmp.size() == n) ans.push_back(tmp);
+
+	for (auto next : ke[u])
+	{
+		if (visited[next] == false)
+		{
+			dfs(n, next, visited, ke, tmp);
+		}
+	}
+	visited[u] = false;
+	tmp.pop_back();
+}
+
+
+int main()
+{
+	freopen("CT.INP", "r", stdin);
+	freopen("CT.OUT", "w", stdout);
+
+	int n, u;
+	cin >> n >> u;
+	vector<vector<int>> ke(n + 100);
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			int tmp; cin >> tmp;
+			if (tmp)
+			{
+				ke[i].push_back(j);
+			}
+		}
+	}
+	
+	vector<bool> visited(n + 100, false);
+	vector<int> tmp;
+	dfs(n, u, visited, ke, tmp);
+
+	int cnt = 0;
+
+	for (auto it : ans)
+	{
+		int last = it[it.size() - 1];
+		for (auto i : ke[last])
+		{
+			if (i == u)
+			{
+				cnt++;
+				for (auto l : it) cout << l << " ";
+				cout << u << endl;
+				break;
+			}
+		}
+	}
+
+	cout << cnt;
+
+	return 0;
+}
