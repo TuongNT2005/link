@@ -1,0 +1,81 @@
+﻿#include<iostream>
+#include<vector>
+#include<map>
+#include<math.h>
+#include<set>
+#include<algorithm>
+#include<unordered_map>
+#include<string>
+#include<sstream>
+#include<queue>
+#include<unordered_set>
+
+using namespace std;
+
+vector<vector<int>> ke(100005);
+vector<bool> visited(100005);
+vector<vector<int>> ans;
+
+void bfs(int u)
+{
+	deque<int> q;
+	q.push_back(u);
+	visited[u] = true;
+	while (q.empty() == false)
+	{
+		int v = q.front();
+		q.pop_front();
+		for (auto next : ke[v])
+		{
+			if (visited[next] == false)
+			{
+				ans.push_back({ v,next });
+				visited[next] = true;
+				q.push_back(next);
+			}
+		}
+	}
+}
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		ans.clear();
+		for (int i = 0; i < 100005; i++)
+		{
+			ke[i].clear();
+			visited[i] = false;
+		}
+
+
+		int n, m; cin >> n >> m;
+		int k; cin >> k;
+
+		for (int i = 0; i < m; i++)
+		{
+			int a, b; cin >> a >> b;
+			ke[a].push_back(b);
+			ke[b].push_back(a);
+		}
+
+		bfs(k);
+		//cout << ans.size() << endl;
+
+		if (ans.size() != n - 1)
+		{
+			cout << -1 << endl;
+		}
+		else
+		{
+			for (auto it : ans)
+			{
+				cout << it[0] << " " << it[1] << endl;
+			}
+		}
+	}
+
+
+	return 0;
+}
