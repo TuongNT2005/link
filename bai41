@@ -1,0 +1,132 @@
+﻿#include<iostream>
+#include<vector>
+#include<map>
+#include<set>
+#include<math.h>
+#include<algorithm>
+#include<string>
+#include<queue>
+#include<stack>
+#include<sstream>
+#include<fstream>
+#include<unordered_map>
+
+using namespace std;
+
+vector<int> visited(1005, 0);
+vector<int> v[1005];
+
+
+void bfs(int cur)
+{
+	cout << cur<<" ";
+	visited[cur] = 1;
+	for (auto it : v[cur])
+	{
+		if (visited[it] == 0)
+		{
+			bfs(it);
+		}
+	}
+
+}
+
+void dfs(int cur, vector<int>& ans)
+{
+	visited[cur] = 1;
+	ans.push_back(cur);
+	for (auto it : v[cur])
+	{
+		if (visited[it] == 0)
+		{
+			dfs(it, ans);
+		}
+	}
+}
+
+bool isTrue = false;
+
+bool dfsFromAtoB(int cur, int target, vector<int> ans)
+{
+	//cout << cur << endl;
+	visited[cur] = 1;
+	ans.push_back(cur);
+
+	if (cur == target)
+	{
+		isTrue = true;
+		for (auto it : ans) cout << it << " ";
+		return true;
+	}
+
+	for (auto des : v[cur]) {
+		//cout << des << endl;
+		if (visited[des] == 0)
+		{
+			if (dfsFromAtoB(des, target, ans)) return true;
+		}
+	}
+	return false;
+}
+
+
+//void bfsFromAtoB(int cur, int target, vector<int> ans)
+//{
+//	deque<int> q;
+//	q.push_back(cur);
+//	visited[cur] = 1;
+//	while (q.empty() == false)
+//	{
+//		ans.push_back(q.front());
+//		for (auto it : v[q.front()])
+//		{
+//			if (visited[it] == 0)
+//			{
+//				visited[it] = 1;
+//				q.push_back(it);
+//			}
+//		}
+//		q.pop_front();
+//	}
+//
+//}
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		isTrue = false;
+		
+		int n, m; cin >> n >> m;
+		for (int i = 0; i < 1005; i++) v[i].clear();
+		for (int i = 1; i <= m; i++)
+		{
+			int a, b; cin >> a >> b;
+			v[a].push_back(b);
+			v[b].push_back(a);
+		}
+		
+		int l[1005][1005] = { 0 };
+		for (int i = 1; i <= n; i++)
+		{
+			visited.clear();
+			visited.resize(n + 1, 0);
+			vector<int> ans;
+			dfs(i, ans);
+			for (auto it : ans) l[i][it] = 1;
+		}
+		int q; cin >> q;
+		while (q--)
+		{
+			int a, b; cin >> a >> b;
+			if (l[a][b] == 1) cout << "YES";
+			else cout << "NO";
+			cout << endl;
+		}
+
+		
+	}
+	return 0;
+
+}
