@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+struct Edge {
+    int u, v, weight;
+};
+
+bool bellmanFord(int V, int E, vector<Edge>& edges, int src) {
+    vector<int> dist(V, INT_MAX);
+    dist[src] = 0;
+
+    // Lặp V - 1 lần
+    for (int i = 1; i < V; ++i) {
+        for (const Edge& edge : edges) {
+            int u = edge.u;
+            int v = edge.v;
+            int w = edge.weight;
+            if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+            }
+        }
+    }
+
+    // Kiểm tra chu trình âm
+    for (const Edge& edge : edges) {
+        int u = edge.u;
+        int v = edge.v;
+        int w = edge.weight;
+        if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {
+            cout << "Đồ thị có chu trình âm!\n";
+            return false;
+        }
+    }
+
+    // In kết quả
+    cout << "Khoảng cách ngắn nhất từ đỉnh " << src << ":\n";
+    for (int i = 0; i < V; ++i) {
+        if (dist[i] == INT_MAX)
+            cout << "Đỉnh " << i << ": Không thể tới\n";
+        else
+            cout << "Đỉnh " << i << ": " << dist[i] << '\n';
+    }
+
+    return true;
+}
+
+int main() {
+    int V = 5; // Số đỉnh
+    int E = 8; // Số cạnh
+    vector<Edge> edges = {
+        {0, 1, 6}, {0, 3, 7},
+        {1, 2, 5}, {1, 3, 8}, {1, 4, -4},
+        {2, 1, -2},
+        {3, 2, -3}, {4, 2, 7}
+    };
+
+    int src = 0; // Đỉnh nguồn
+    bellmanFord(V, E, edges, src);
+
+    return 0;
+}
