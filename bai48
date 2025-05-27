@@ -1,0 +1,62 @@
+#include<iostream>
+#include<map>
+#include<vector>
+#include<deque>
+
+
+using namespace std;
+
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		int n, m, k;
+		cin >> n >> m >> k;
+		vector<vector<int>> v(n + 1, vector<int>(n + 1, 1000000007));
+		for (int i = 1; i <= n; i++) v[i][i] = 0;
+		for (int i = 0; i < m; i++)
+		{
+			int a, b, c; cin >> a >> b >> c;
+			  // Chỉ giữ cạnh nhỏ nhất nếu có nhiều cạnh giữa 2 đỉnh
+			v[b][a] = min(v[b][a], c);
+			v[a][b] = min(v[a][b], c);
+		}
+
+		vector<int> ans(n + 1, 1000000007);
+		for (int i = 1; i <= n; i++)
+		{
+			ans[i] = v[k][i];
+		}
+
+		vector<bool> visited(n + 1, false);
+		visited[k] = true;
+		while (true)
+		{
+			int u = 0;
+			for (int i = 1; i <= n; i++)
+			{
+				if (!visited[i] && ans[i] < ans[u])
+				{
+					u = i;
+				}
+			}
+			if (u == 0) break;
+			visited[u] = true;
+			for (int i = 1; i <= n; i++)
+			{
+				if (visited[i]==false && ans[u] + v[u][i] < ans[i])
+					ans[i] = ans[u] + v[u][i];
+			}
+		}
+		for (int i = 1; i <= n; i++)
+		{
+			if (ans[i] == 1000000007) ans[i] = 0;
+			cout << ans[i] << " ";
+		}
+		cout << endl;
+	}
+	
+
+	return 0;
+}
